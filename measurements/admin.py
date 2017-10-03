@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from .models import Measurement, Shirt, Blouse, Gown, Trouser
+from .models import Measurement, Shirt, Blouse, Gown, Trouser, Skirt
 
 
 class Base(admin.ModelAdmin):
@@ -48,6 +48,13 @@ class TrouserAdmin(Base):
     fields = ('name', 'info', 'measurement', 'quantity', 'length', 'waist',
               'hip', 'flap', 'down', 'lap', 'style', 'style_tag',
               'material_sample', 'material_sample_tag',)
+
+
+@admin.register(Skirt)
+class SkirtAdmin(Base):
+    fields = ('name', 'info', 'measurement', 'quantity', 'length', 'waist',
+              'hip', 'half_length', 'style', 'style_tag', 'material_sample',
+              'material_sample_tag',)
 
 
 admin.site.unregister(Group)

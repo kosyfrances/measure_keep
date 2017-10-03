@@ -164,3 +164,13 @@ class Trouser(CommonComputation, ImageUpload):
 
     def __str__(self):
         return self.name
+
+
+class Skirt(CommonComputation, ImageUpload):
+
+    half_length = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    def __str__(self):
+        return self.name
