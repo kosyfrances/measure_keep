@@ -44,6 +44,11 @@ class CommonComputation(Base):
         max_digits=10, decimal_places=2, default=0.00
     )
 
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = "{}'s shirt".format(self.measurement.name)
+        return super().save(*args, **kwargs)
+
     class Meta:
         abstract = True
 
@@ -110,6 +115,17 @@ class Shirt(CommonComputation, AbstractShirt, ImageUpload):
     def __str__(self):
         return self.name
 
-    def save(self):
-        if not self.name:
-            self.name = "{}'s shirt".format(self.measurement.name)
+
+class Blouse(CommonComputation, AbstractShirt, ImageUpload):
+    nipple_to_nipple = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    shoulder_to_nipple = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    underbust_length = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    def __str__(self):
+        return self.name
