@@ -2,11 +2,15 @@ from django.db import models
 from django.utils.html import mark_safe
 
 
-class Measurement(models.Model):
-    name = models.CharField(max_length=250)
+class Base(models.Model):
     info = models.TextField(blank=True, null=True)
-    style = models.ImageField(upload_to='style/', blank=True)
-    material_sample = models.ImageField(upload_to='sample/', blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Measurement(Base):
+    name = models.CharField(max_length=250)
     amount_charged = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00
     )
@@ -17,6 +21,36 @@ class Measurement(models.Model):
         max_digits=10, decimal_places=2, default=0.00,
         editable=False, null=True
     )
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.balance = self.amount_charged - self.amount_paid
+        return super().save(*args, **kwargs)
+
+
+class CommonComputation(Base):
+    name = models.CharField(max_length=250, blank=True)
+    measurement = models.ForeignKey(Measurement)
+    quantity = models.PositiveIntegerField(default=1)
+    length = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    waist = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    hip = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    class Meta:
+        abstract = True
+
+
+class ImageUpload(models.Model):
+    style = models.ImageField(upload_to='style/', blank=True)
+    material_sample = models.ImageField(upload_to='sample/', blank=True)
 
     def style_tag(self):
         return mark_safe(
@@ -39,9 +73,43 @@ class Measurement(models.Model):
     material_sample_tag.short_description = 'Material sample image'
     style_tag.short_description = 'Style image'
 
+    class Meta:
+        abstract = True
+
+
+class AbstractShirt(models.Model):
+    shoulder = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    half_length = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    bust = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    underbust_waist = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    sleeve_length = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    round_sleeve_short = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    round_sleeve_long = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Shirt(CommonComputation, AbstractShirt, ImageUpload):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        self.balance = self.amount_charged - self.amount_paid
-        return super().save(*args, **kwargs)
+    def save(self):
+        if not self.name:
+            self.name = "{}'s shirt".format(self.measurement.name)
