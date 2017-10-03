@@ -11,6 +11,7 @@ mock==2.0.0
 olefile==0.44
 pbr==3.1.1
 Pillow==4.2.1
+psycopg2==2.7.3.1
 python-env==1.0.0
 pytz==2017.2
 requests==2.18.4
