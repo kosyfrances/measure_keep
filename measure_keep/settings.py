@@ -37,9 +37,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'suit',
+    'django.contrib.auth',
     'measurements.apps.MeasurementsConfig',
     'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

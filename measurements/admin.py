@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+
 from .models import Measurement, Shirt, Blouse, Gown, Trouser
 
 
@@ -46,3 +48,6 @@ class TrouserAdmin(Base):
     fields = ('name', 'info', 'measurement', 'quantity', 'length', 'waist',
               'hip', 'flap', 'down', 'lap', 'style', 'style_tag',
               'material_sample', 'material_sample_tag',)
+
+
+admin.site.unregister(Group)
