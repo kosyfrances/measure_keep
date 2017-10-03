@@ -135,19 +135,19 @@ class AbstractBlouse(AbstractShirt):
 class Shirt(AbstractShirt):
 
     def __str__(self):
-        return self.name
+        return '{} for {}'.format(self.name, self.measurement.name)
 
 
 class Blouse(AbstractBlouse):
 
     def __str__(self):
-        return self.name
+        return '{} for {}'.format(self.name, self.measurement.name)
 
 
 class Gown(AbstractBlouse):
 
     def __str__(self):
-        return self.name
+        return '{} for {}'.format(self.name, self.measurement.name)
 
 
 class Trouser(CommonComputation, ImageUpload):
@@ -163,7 +163,7 @@ class Trouser(CommonComputation, ImageUpload):
     )
 
     def __str__(self):
-        return self.name
+        return '{} for {}'.format(self.name, self.measurement.name)
 
 
 class Skirt(CommonComputation, ImageUpload):
@@ -173,4 +173,4 @@ class Skirt(CommonComputation, ImageUpload):
     )
 
     def __str__(self):
-        return self.name
+        return '{} for {}'.format(self.name, self.measurement.name)
