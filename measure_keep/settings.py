@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+
+from django.contrib.admin import AdminSite
+
 import dotenv
 dotenv.load()
 
@@ -25,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = dotenv.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = dotenv.get('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -33,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'suit',
     'measurements.apps.MeasurementsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -130,4 +134,11 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': dotenv.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': dotenv.get('CLOUDINARY_API_KEY'),
     'API_SECRET': dotenv.get('CLOUDINARY_API_SECRET'),
+}
+
+# Admin site settings
+AdminSite.site_header = 'Measure Keep'
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': AdminSite.site_header
 }
