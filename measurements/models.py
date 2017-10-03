@@ -5,6 +5,7 @@ from django.utils.html import mark_safe
 class Base(models.Model):
 
     info = models.TextField(blank=True, null=True)
+    done = models.BooleanField(default=False)
 
     class Meta:
         abstract = True

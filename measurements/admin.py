@@ -14,13 +14,14 @@ class SharedBlouse(Base):
               'underbust_waist', 'waist', 'hip', 'round_sleeve_short',
               'round_sleeve_long', 'sleeve_length', 'nipple_to_nipple',
               'shoulder_to_nipple', 'style', 'style_tag', 'material_sample',
-              'material_sample_tag',)
+              'material_sample_tag', 'done',)
 
 
 @admin.register(Measurement)
 class MeasurementAdmin(admin.ModelAdmin):
 
-    fields = ('name', 'info', 'amount_charged', 'amount_paid', 'balance',)
+    fields = ('name', 'info', 'amount_charged', 'amount_paid',
+              'balance', 'done',)
     readonly_fields = ('balance',)
 
 
@@ -30,7 +31,7 @@ class ShirtAdmin(Base):
               'half_length', 'shoulder', 'bust', 'underbust_waist',
               'waist', 'hip', 'round_sleeve_short', 'round_sleeve_long',
               'sleeve_length', 'style', 'style_tag', 'material_sample',
-              'material_sample_tag',)
+              'material_sample_tag', 'done',)
 
 
 @admin.register(Blouse)
@@ -47,14 +48,14 @@ class GownAdmin(SharedBlouse):
 class TrouserAdmin(Base):
     fields = ('name', 'info', 'measurement', 'quantity', 'length', 'waist',
               'hip', 'flap', 'down', 'lap', 'style', 'style_tag',
-              'material_sample', 'material_sample_tag',)
+              'material_sample', 'material_sample_tag', 'done',)
 
 
 @admin.register(Skirt)
 class SkirtAdmin(Base):
     fields = ('name', 'info', 'measurement', 'quantity', 'length', 'waist',
               'hip', 'half_length', 'style', 'style_tag', 'material_sample',
-              'material_sample_tag',)
+              'material_sample_tag', 'done',)
 
 
 admin.site.unregister(Group)
