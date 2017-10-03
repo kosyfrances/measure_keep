@@ -1,5 +1,18 @@
 from django.contrib import admin
-from .models import Measurement, Shirt, Blouse
+from .models import Measurement, Shirt, Blouse, Gown, Trouser
+
+
+class Base(admin.ModelAdmin):
+    readonly_fields = ('style_tag', 'material_sample_tag',)
+
+
+class SharedBlouse(Base):
+    fields = ('name', 'info', 'measurement', 'quantity', 'length',
+              'half_length', 'underbust_length', 'shoulder', 'bust',
+              'underbust_waist', 'waist', 'hip', 'round_sleeve_short',
+              'round_sleeve_long', 'sleeve_length', 'nipple_to_nipple',
+              'shoulder_to_nipple', 'style', 'style_tag', 'material_sample',
+              'material_sample_tag',)
 
 
 @admin.register(Measurement)
@@ -10,19 +23,26 @@ class MeasurementAdmin(admin.ModelAdmin):
 
 
 @admin.register(Shirt)
-class ShirtAdmin(admin.ModelAdmin):
+class ShirtAdmin(Base):
     fields = ('name', 'info', 'measurement', 'quantity', 'length',
               'half_length', 'shoulder', 'bust', 'underbust_waist',
               'waist', 'hip', 'round_sleeve_short', 'round_sleeve_long',
-              'sleeve_length')
-    readonly_fields = ('style_tag', 'material_sample_tag',)
+              'sleeve_length', 'style', 'style_tag', 'material_sample',
+              'material_sample_tag',)
 
 
 @admin.register(Blouse)
-class BlouseAdmin(admin.ModelAdmin):
-    fields = ('name', 'info', 'measurement', 'quantity', 'length',
-              'half_length', 'underbust_length', 'shoulder', 'bust',
-              'underbust_waist', 'waist', 'hip', 'round_sleeve_short',
-              'round_sleeve_long', 'sleeve_length', 'nipple_to_nipple',
-              'shoulder_to_nipple',)
-    readonly_fields = ('style_tag', 'material_sample_tag',)
+class BlouseAdmin(SharedBlouse):
+    pass
+
+
+@admin.register(Gown)
+class GownAdmin(SharedBlouse):
+    pass
+
+
+@admin.register(Trouser)
+class TrouserAdmin(Base):
+    fields = ('name', 'info', 'measurement', 'quantity', 'length', 'waist',
+              'hip', 'flap', 'down', 'lap', 'style', 'style_tag',
+              'material_sample', 'material_sample_tag',)

@@ -3,6 +3,7 @@ from django.utils.html import mark_safe
 
 
 class Base(models.Model):
+
     info = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -10,6 +11,7 @@ class Base(models.Model):
 
 
 class Measurement(Base):
+
     name = models.CharField(max_length=250)
     amount_charged = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00
@@ -31,6 +33,7 @@ class Measurement(Base):
 
 
 class CommonComputation(Base):
+
     name = models.CharField(max_length=250, blank=True)
     measurement = models.ForeignKey(Measurement)
     quantity = models.PositiveIntegerField(default=1)
@@ -54,6 +57,7 @@ class CommonComputation(Base):
 
 
 class ImageUpload(models.Model):
+
     style = models.ImageField(upload_to='style/', blank=True)
     material_sample = models.ImageField(upload_to='sample/', blank=True)
 
@@ -82,7 +86,8 @@ class ImageUpload(models.Model):
         abstract = True
 
 
-class AbstractShirt(models.Model):
+class AbstractShirt(CommonComputation, ImageUpload):
+
     shoulder = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00
     )
@@ -111,12 +116,8 @@ class AbstractShirt(models.Model):
         abstract = True
 
 
-class Shirt(CommonComputation, AbstractShirt, ImageUpload):
-    def __str__(self):
-        return self.name
+class AbstractBlouse(AbstractShirt):
 
-
-class Blouse(CommonComputation, AbstractShirt, ImageUpload):
     nipple_to_nipple = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00
     )
@@ -124,6 +125,40 @@ class Blouse(CommonComputation, AbstractShirt, ImageUpload):
         max_digits=10, decimal_places=2, default=0.00
     )
     underbust_length = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+
+    class Meta:
+        abstract = True
+
+
+class Shirt(AbstractShirt):
+
+    def __str__(self):
+        return self.name
+
+
+class Blouse(AbstractBlouse):
+
+    def __str__(self):
+        return self.name
+
+
+class Gown(AbstractBlouse):
+
+    def __str__(self):
+        return self.name
+
+
+class Trouser(CommonComputation, ImageUpload):
+
+    flap = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    down = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+    )
+    lap = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00
     )
 
