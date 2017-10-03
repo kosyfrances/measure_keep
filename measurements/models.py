@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import mark_safe
 
 
 class Measurement(models.Model):
@@ -16,6 +17,27 @@ class Measurement(models.Model):
         max_digits=10, decimal_places=2, default=0.00,
         editable=False, null=True
     )
+
+    def style_tag(self):
+        return mark_safe(
+            '<a href="{}" target="_blank">'
+            '<img src="{}" width="150" height="150"/>'
+            '</a>'.format(
+                self.style.url, self.style.url
+            )
+        )
+
+    def material_sample_tag(self):
+        return mark_safe(
+            '<a href="{}" target="_blank">'
+            '<img src="{}" width="150" height="150"/>'
+            '</a>'.format(
+                self.material_sample.url, self.material_sample.url
+            )
+        )
+
+    material_sample_tag.short_description = 'Material sample image'
+    style_tag.short_description = 'Style image'
 
     def __str__(self):
         return self.name
